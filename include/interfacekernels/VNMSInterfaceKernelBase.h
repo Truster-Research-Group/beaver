@@ -21,7 +21,7 @@
 /// most of the math has to be done in the subclasses
 ///
 class VMNSInterfaceKernelBase
-  : public JvarMapKernelInterface<DerivativeMaterialInterface<Kernel>>
+  : public JvarMapKernelInterface<DerivativeMaterialInterface<InterfaceKernel>>
 {
 public:
   static InputParameters validParams();
