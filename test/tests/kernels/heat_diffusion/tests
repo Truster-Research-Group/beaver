@@ -1,0 +1,8 @@
+[Tests]
+  [heat_diff_checker]
+    type = 'Exodiff'
+    input = 'checker_heatdiff.i'
+    exodiff = 'checker_heatdiff_out.e'
+    requirement = 'Testing isotropic heat diffusion with kernel/material list.'
+  []
+[]
