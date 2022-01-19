@@ -15,6 +15,16 @@ Renderer:
 Extensions:
     MooseDocs.extensions.navigation:
         name: Beaver
+        repo: https://bitbucket.org/trusterresearchgroup/beaver/src/master/
+        menu:
+            Getting Started:
+                Running Beaver: getting_started/RunningBeaver.md
+                Input Structure: getting_started/BeaverInputStructure.md
+            Documentation:
+                Systems: syntax/index.md
+            Examples:
+                Systems: example/index.md
+
     MooseDocs.extensions.appsyntax:
         executable: ${ROOT_DIR}
         remove: !include ${MOOSE_DIR}/framework/doc/remove.yml
