@@ -47,6 +47,5 @@ protected:
   /// The heat flux vector Q
   MaterialProperty<RealVectorValue> & _heat_flux;
   /// The derivative of Q wrt the thermal gradient
-  MaterialProperty<Real> & _diff_scalar;
-  // MaterialProperty<RankTwoTensor> & _diff_tensor;
+  MaterialProperty<RankTwoTensor> & _diff_tensor;
 };

@@ -23,8 +23,7 @@ ComputeHeatFluxBase::ComputeHeatFluxBase(const InputParameters & parameters)
   : Material(parameters),
     _base_name(isParamValid("base_name") ? getParam<std::string>("base_name") + "_" : ""),
     _heat_flux(declareProperty<RealVectorValue>(_base_name + "heat_flux")),
-    _diff_scalar(declareProperty<Real>(_base_name + "diff_scalar"))
-    // _diff_tensor(declareProperty<RankTwoTensor>(_base_name + "diff_tensor"))
+    _diff_tensor(declareProperty<RankTwoTensor>(_base_name + "diff_tensor"))
 {
 }
 

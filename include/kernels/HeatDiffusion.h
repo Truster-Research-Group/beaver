@@ -36,6 +36,5 @@ protected:
   const MaterialProperty<RealVectorValue> & _Qvec;
   /// The derivative of the Q heat flux with respect to the
   /// temperature
-  const MaterialProperty<Real> & _dQdTs;
-  // const MaterialProperty<RankTwoTensor> & _dQdT;
+  const MaterialProperty<RankTwoTensor> & _dQdT;
 };

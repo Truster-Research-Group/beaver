@@ -32,10 +32,8 @@ void
 ComputeIsotropicHeat::computeQpHeatFlux()
 {
   // Make the diffusivity tensor
-  //RankTwoTensor & Dten = _diff_tensor[_qp];
-  //Dten(initIdentity);
-  _diff_scalar[_qp] = _D[_qp];
+  _diff_tensor[_qp] = _D[_qp] * RankTwoTensor::Identity();
 
   // The heat flux update is linear
-  _heat_flux[_qp] = _diff_scalar[_qp] * _grad_T[_qp];
+  _heat_flux[_qp] = _diff_tensor[_qp] * _grad_T[_qp];
 }

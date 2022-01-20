@@ -27,8 +27,7 @@ HeatDiffusion::validParams()
 HeatDiffusion::HeatDiffusion(const InputParameters & parameters)
   : HeatDiffusionBase(parameters),
     _Qvec(getMaterialPropertyByName<RealVectorValue>(_base_name + "heat_flux")),
-    _dQdTs(getMaterialPropertyByName<Real>(_base_name + "diff_scalar"))
-  //  _dQdT(getMaterialPropertyByName<RankTwoTensor>(_base_name + "diff_tensor"))
+    _dQdT(getMaterialPropertyByName<RankTwoTensor>(_base_name + "diff_tensor"))
 {
 }
 
@@ -41,6 +40,5 @@ HeatDiffusion::computeQpResidual()
 Real
 HeatDiffusion::computeQpJacobian()
 {
-  return _dQdTs[_qp] * _grad_phi[_j][_qp] * _grad_test[_i][_qp];
-  // return (_dQdT[_qp] * _grad_phi[_j][_qp]) * _grad_test[_i][_qp];
+  return (_dQdT[_qp] * _grad_phi[_j][_qp]) * _grad_test[_i][_qp];
 }
