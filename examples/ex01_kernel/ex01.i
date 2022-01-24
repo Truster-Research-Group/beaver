@@ -38,6 +38,19 @@
   [../]
 []
 
+[AuxVariables]
+  [./postflux10]
+    order = CONSTANT
+    family = MONOMIAL
+    block = 1
+  [../]
+  [./postflux2]
+    order = CONSTANT
+    family = MONOMIAL_VEC
+    block = 2
+  [../]
+[]
+
 [Kernels]
   [./diff0] # Add useful comment here!!!
     type = HeatDiffusion
@@ -47,17 +60,36 @@
   [./diff1]
     type = HeatDiffusion
     variable = u
+    base_name = G1
     block = 1
   [../]
   [./diff2]
     type = HeatDiffusion
     variable = u
+    base_name = G2
     block = 2
   [../]
   [./diff3]
     type = HeatDiffusion
     variable = u
+    base_name = G3
     block = 3
+  [../]
+[]
+
+[AuxKernels]
+  [./postflux10]
+    type = MaterialRealVectorValueAux
+    property = G1_heat_flux
+    variable = postflux10
+    component = 0
+    block = 1
+  [../]
+  [./postflux2]
+    type = VectorMaterialRealVectorValueAux
+    property = G2_heat_flux
+    variable = postflux2
+    block = 2
   [../]
 []
 
@@ -68,23 +100,15 @@
     prop_values = '1'
     block = 0
   []
-  [./mat1]
+  [./mat12]
     type = GenericConstantMaterial
-    prop_names = 'D1'
+    prop_names = 'D12'
     prop_values = '20'
-    block = 1
-  []
-  [./mat2]
-    type = GenericConstantMaterial
-    prop_names = 'D2'
-    prop_values = '20'
-    block = 2
   []
   [./mat3]
     type = GenericConstantMaterial
     prop_names = 'D3'
     prop_values = '1'
-    block = 3
   [../]
   [./flux0]
     type = ComputeIsotropicHeat
@@ -93,17 +117,19 @@
   []
   [./flux1]
     type = ComputeIsotropicHeat
-    diffusivity = D1
-    block = 1
+    diffusivity = D12
+    base_name = G1
   []
   [./flux2]
     type = ComputeIsotropicHeat
-    diffusivity = D2
-    block = 2
+    diffusivity = D12
+    base_name = G2
+    block = '1 2'
   []
   [./flux3]
     type = ComputeIsotropicHeat
     diffusivity = D3
+    base_name = G3
     block = 3
   [../]
   [./grad0]
@@ -114,16 +140,18 @@
   [./grad1]
     type = ComputeTempGrad
     temp = u
-    block = 1
+    base_name = G1
   []
   [./grad2]
     type = ComputeTempGrad
     temp = u
-    block = 2
+    base_name = G2
+    block = '1 2'
   []
   [./grad3]
     type = ComputeTempGrad
     temp = u
+    base_name = G3
     block = 3
   [../]
 []

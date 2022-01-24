@@ -14,7 +14,7 @@ HeatDiffusionBase::validParams()
 {
   InputParameters params = Kernel::validParams();
 
-  params.addParam<std::string>("base_name", "Material property base name");
+  params.addParam<std::string>("base_name", "Material base name for a diffusion, heat flux, and grad T sequence");
 
   return params;
 }
