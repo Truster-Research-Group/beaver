@@ -45,7 +45,7 @@ protected:
   const std::string _base_name;
 
   /// The heat flux vector Q
-  MaterialProperty<RealVectorValue> & _heat_flux;
+  MaterialProperty<RealVectorValue> & _heat_flux; // analogy: _stress
   /// The derivative of Q wrt the thermal gradient
-  MaterialProperty<RankTwoTensor> & _diff_tensor;
+  MaterialProperty<RankTwoTensor> & _diff_tensor; // analogy: _dstress_dstrain, _Jacobian_mult
 };

@@ -33,8 +33,8 @@ private:
 
 protected:
   /// The heat flux vector
-  const MaterialProperty<RealVectorValue> & _Qvec;
+  const MaterialProperty<RealVectorValue> & _Qvec; // analogy: _stress
   /// The derivative of the Q heat flux with respect to the
   /// temperature
-  const MaterialProperty<RankTwoTensor> & _dQdT;
+  const MaterialProperty<RankTwoTensor> & _dQdT; // analogy: _Jacobian_mult
 };
