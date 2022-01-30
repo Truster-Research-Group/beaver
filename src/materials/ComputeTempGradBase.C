@@ -30,14 +30,14 @@ ComputeTempGradBase::ComputeTempGradBase(const InputParameters & parameters)
     _temp(coupledValue("temp")),
     _grad_temp(coupledGradient("temp")),
     _base_name(isParamValid("base_name") ? getParam<std::string>("base_name") + "_" : ""),
-    _grad_T(declareProperty<RealVectorValue>(_base_name + "grad_T")),
-    _hold_T(declareProperty<RealVectorValue>(_base_name + "hold_T"))
+    _grad_t(declareProperty<RealVectorValue>(_base_name + "grad_t")),
+    _hold_t(declareProperty<RealVectorValue>(_base_name + "hold_t"))
 {
 }
 
 void
 ComputeTempGradBase::initQpStatefulProperties()
 {
-  _grad_T[_qp].zero();
-  _hold_T[_qp].zero();
+  _grad_t[_qp].zero();
+  _hold_t[_qp].zero();
 }

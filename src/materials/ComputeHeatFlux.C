@@ -21,7 +21,7 @@ ComputeHeatFlux::validParams()
 
 ComputeHeatFlux::ComputeHeatFlux(const InputParameters & parameters)
   : ComputeHeatFluxBase(parameters),
-    _grad_T(getMaterialPropertyByName<RealVectorValue>(_base_name + "grad_T"))
+    _grad_t(getMaterialPropertyByName<RealVectorValue>(_base_name + "grad_t"))
 {
 }
 

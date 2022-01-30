@@ -251,8 +251,6 @@ HeatDiffusionAction::actSubdomainChecks()
 void
 HeatDiffusionAction::actOutputGeneration()
 {
-  if (_current_task == "add_material")
-    actOutputMatProp();
 
   // Add variables (optional)
   if (_current_task == "add_aux_variable")
@@ -290,17 +288,29 @@ HeatDiffusionAction::actOutputGeneration()
       if (_material_output_family[index] == "MONOMIAL")
       {
         InputParameters params = emptyInputParameters();
+     
+         // RankOneCartesianComponent
+        if ([&]() {
+            for (const auto & r2q : _rank_one_cartesian_component_table)
+              for (unsigned int a = 0; a < 3; ++a)
+                  if (r2q.first + '_' + _component_table[a] == out)
+                  {
+                    params = _factory.getValidParams("MaterialRealVectorValueAux");
+                    params.applyParameters(parameters());
+                    params.set<MaterialPropertyName>("property") = _base_name + r2q.second;
+                    params.set<AuxVariableName>("variable") = _base_name + out;
+                    params.set<unsigned int>("component") = a;
+                    params.set<ExecFlagEnum>("execute_on") = EXEC_TIMESTEP_END;
 
-        params = _factory.getValidParams("MaterialRealVectorValueAux");
-        params.applyParameters(parameters());
-        params.set<MaterialPropertyName>("property") = _base_name + out;
-        params.set<AuxVariableName>("variable") = _base_name + out;
-        params.set<ExecFlagEnum>("execute_on") = EXEC_TIMESTEP_END;
-        // NEED to add a table with component and delete the scalar magnitude option;
-        // build that when you build the generate output list variable
+                    _problem->addAuxKernel(
+                        ad_prepend + "MaterialRealVectorValueAux", _base_name + out + '_' + name(), params);
+                    return true;
+                  }
+            return false;
+          }())
+        continue;
 
-        _problem->addAuxKernel(
-            ad_prepend + "MaterialRealVectorValueAux", _base_name + out + '_' + name(), params);
+        paramError("generate_output", "Unable to add output Material for '", out, "'");
       }
       index++;
     }
@@ -358,16 +368,6 @@ HeatDiffusionAction::verifyOrderAndFamilyOutputs()
                << "\n"
                << _name << ": " << Moose::stringify(_material_output_family) << "\n"
                << COLOR_DEFAULT << std::flush;
-}
-
-void
-HeatDiffusionAction::actOutputMatProp()
-{
-  std::string ad_prepend = _use_ad ? "AD" : "";
-
-  if (_current_task == "add_material")
-  {
-  }
 }
 
 void

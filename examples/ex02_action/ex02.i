@@ -31,19 +31,23 @@
   [../]
 []
 
-[Variables]
-  [./u]
-    order = FIRST
-    family = LAGRANGE
-  [../]
+[GlobalParams]
+  temp = 'u'
 []
 
 [Beaver/VMNT/HeatDiff]
   temp = 'u'
-  [./diff0]
-    temp = 'u'
-    block = '0 1 2 3'
-    []
+  add_variables = true
+  generate_output = 'heat_flux_x heat_flux_y total_t_x total_t_y'
+  [./others]
+    block = '0 1 3'
+  [../]
+  [./diff1]
+    block = 2
+    base_name = G2
+    grad_base_name = G2
+    additional_generate_output = 'grad_t_x grad_t_y'
+  [../]
 []
 
 [Materials]
@@ -85,6 +89,7 @@
     type = ComputeIsotropicHeat
     diffusivity = D2
     block = 2
+    base_name = G2
   []
   [./flux3]
     type = ComputeIsotropicHeat

@@ -32,12 +32,12 @@ ComputeTempGrad::computeProperties()
   for (_qp = 0; _qp < _qrule->n_points(); ++_qp)
   {
 
-    _hold_T[_qp] = _grad_temp[_qp];
+    _hold_t[_qp] = _grad_temp[_qp];
   }
 
   for (_qp = 0; _qp < _qrule->n_points(); ++_qp)
   {
 
-    _grad_T[_qp] = _hold_T[_qp];
+    _grad_t[_qp] = _hold_t[_qp];
   }
 }

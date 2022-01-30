@@ -35,5 +35,5 @@ private:
 
 protected:
   /// Thermal gradient
-  const MaterialProperty<RealVectorValue> & _grad_T;
+  const MaterialProperty<RealVectorValue> & _grad_t;
 };

@@ -14,9 +14,9 @@
 
 // map vector name shortcuts to tensor material property names
 std::map<std::string, std::string> HeatDiffusionActionBase::_rank_one_cartesian_component_table =
-    {{"total_T", "hold_T"},
-     {"grad_T", "grad_T"},
-     {"stress", "stress"}};
+    {{"total_t", "hold_t"},
+     {"grad_t", "grad_t"},
+     {"heat_flux", "heat_flux"}};
 const std::vector<char> HeatDiffusionActionBase::_component_table = {'x', 'y', 'z'};
 
 InputParameters
