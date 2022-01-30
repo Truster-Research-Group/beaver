@@ -52,7 +52,7 @@
 []
 
 [Kernels]
-  [./diff0] # Add useful comment here!!!
+  [./diff0]
     type = HeatDiffusion
     variable = u
     block = 0
