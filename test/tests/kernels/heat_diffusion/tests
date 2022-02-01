@@ -3,6 +3,7 @@
     type = 'Exodiff'
     input = 'checker_heatdiff.i'
     exodiff = 'checker_heatdiff_out.e'
+    design = 'source/kernels/HeatDiffusion.md'
     requirement = 'Testing isotropic heat diffusion with kernel/material list.'
   []
 []

@@ -1,0 +1,9 @@
+[Tests]
+  design = '???/HeatDiffusionAction.md'
+  [heat_diff_action_all]
+    type = 'Exodiff'
+    input = 'action_all.i'
+    exodiff = 'action_all_out.e'
+    requirement = 'Action with no optional arguments, only temp for all blocks.'
+  []
+[]

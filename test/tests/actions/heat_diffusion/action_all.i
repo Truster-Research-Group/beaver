@@ -8,13 +8,6 @@
     ymax = 8
     elem_type = QUAD4
   [../]
-#  [./lowlef]
-#    type = SubdomainBoundingBoxGenerator
-#    input = 'gen'
-#    block_id = 1
-#    bottom_left = '0 0 0'
-#    top_right = '4 4 4'
-#  [../]
   [./lowrig]
     type = SubdomainBoundingBoxGenerator
     input = 'lowlef'
@@ -45,30 +38,13 @@
   [../]
 []
 
-[Kernels]
-  [./diff0]
-    type = HeatDiffusion
-    variable = u
-    block = 0
-  [../]
-  [./diff1]
-    type = HeatDiffusion
-    variable = u
-    block = 1
-  [../]
-  [./diff2]
-    type = HeatDiffusion
-    variable = u
-    block = 2
-  [../]
-  [./diff3]
-    type = HeatDiffusion
-    variable = u
-    block = 3
+[Beaver/VMNT/HeatDiff]
+  temp = 'u'
+  [./all]
+    temp = 'u'
   [../]
 []
 
-# Four materials and 4 kernels, linked by block
 [Materials]
   [./mat0]
     type = GenericConstantMaterial
@@ -112,26 +88,6 @@
   [./flux3]
     type = ComputeIsotropicHeat
     diffusivity = D3
-    block = 3
-  [../]
-  [./grad0]
-    type = ComputeTempGrad
-    temp = u
-    block = 0
-  []
-  [./grad1]
-    type = ComputeTempGrad
-    temp = u
-    block = 1
-  []
-  [./grad2]
-    type = ComputeTempGrad
-    temp = u
-    block = 2
-  []
-  [./grad3]
-    type = ComputeTempGrad
-    temp = u
     block = 3
   [../]
 []
