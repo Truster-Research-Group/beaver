@@ -29,7 +29,7 @@ four square regions, having different diffusivity as listed later.
 
 !listing examples/ex01_kernel/ex01.i block=Mesh
 
-!media large_media/examples/ex01_mesh.png
+!media media/examples/ex01_mesh.png
        caption=Four block mesh
        style=width:40%;display:block;margin-left:auto;margin-right:auto;
 
@@ -168,7 +168,7 @@ make -j8
 This will generate the results file, ex01_out.e, as shown in [example-1-results]. This file may be viewed using
 Paraview, an external application that supports the Exodus II format.
 
-!media large_media/examples/ex01_results.png
+!media media/examples/ex01_results.png
        id=example-1-results
        caption= Example 1 Results
        style=width:50%;display:block;margin-left:auto;margin-right:auto;
