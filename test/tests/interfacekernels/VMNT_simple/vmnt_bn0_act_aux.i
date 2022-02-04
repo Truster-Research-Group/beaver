@@ -8,13 +8,6 @@
     ymax = 8
     elem_type = QUAD4
   [../]
-#  [./lowlef]
-#    type = SubdomainBoundingBoxGenerator
-#    input = 'gen'
-#    block_id = 1
-#    bottom_left = '0 0 0'
-#    top_right = '4 4 4'
-#  [../]
   [./lowrig]
     type = SubdomainBoundingBoxGenerator
     input = 'lowlef'
@@ -49,26 +42,26 @@
   [../]
 []
 
-[Kernels]
-  [./diff0]
-    type = HeatDiffusion
-    variable = u
-    block = 0
+[AuxVariables]
+  [./tjg]
+    order = CONSTANT
+    family = MONOMIAL
   [../]
-  [./diff1]
-    type = HeatDiffusion
-    variable = u
-    block = 1
+  [./hag]
+    order = CONSTANT
+    family = MONOMIAL
   [../]
-  [./diff2]
-    type = HeatDiffusion
-    variable = u
-    block = 2
+  [./hjg]
+    order = CONSTANT
+    family = MONOMIAL
   [../]
-  [./diff3]
-    type = HeatDiffusion
-    variable = u
-    block = 3
+[]
+
+[Beaver/VMNT/HeatDiff]
+  temp = 'u'
+  generate_output = 'heat_flux_x heat_flux_y total_t_x total_t_y'
+  [./all]
+    temp = 'u'
   [../]
 []
 
@@ -80,10 +73,34 @@
     boundary = interface
     pen_scale = 0.1
     nis_flag = -1
+    use_flux_penalty = true
   [../]
 []
 
-# Four materials and 4 kernels, linked by block
+[AuxKernels]
+  [./tjg]
+    type = MaterialRealAux
+    property = temp_jump_global
+    variable = tjg
+    boundary = interface
+    check_boundary_restricted = false
+  [../]
+  [./hag]
+    type = MaterialRealAux
+    property = heatflux_aver_global
+    variable = hag
+    boundary = interface
+    check_boundary_restricted = false
+  [../]
+  [./hjg]
+    type = MaterialRealAux
+    property = heatflux_jump_global
+    variable = hjg
+    boundary = interface
+    check_boundary_restricted = false
+  [../]
+[]
+
 [Materials]
   [./mat0]
     type = GenericConstantMaterial
@@ -129,26 +146,6 @@
     diffusivity = D3
     block = 3
   [../]
-  [./grad0]
-    type = ComputeTempGrad
-    temp = u
-    block = 0
-  []
-  [./grad1]
-    type = ComputeTempGrad
-    temp = u
-    block = 1
-  []
-  [./grad2]
-    type = ComputeTempGrad
-    temp = u
-    block = 2
-  []
-  [./grad3]
-    type = ComputeTempGrad
-    temp = u
-    block = 3
-  [../]
   [./tempjump]
     type = ComputeTemperatureJumpLocal
     temp = u
@@ -182,13 +179,6 @@
   solve_type = NEWTON
 []
 
-[Postprocessors]
-  [max]
-    type = ElementExtremeValue
-    variable = u
-  []
-[]
-
 [Outputs]
-  csv = true
+  exodus = true
 []

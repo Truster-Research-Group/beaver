@@ -31,6 +31,8 @@ protected:
   virtual void computeQpProperties() override;
   /// Provide for the actual heat flux average and jump
   virtual void computeQpFluxAverJump() = 0;
+  /// Obtain the diffusivity tensors from materials on e and n sides
+  virtual void obtainQpDiffTensors() = 0;
 
   /// Base name of the material system
   const std::string _base_name;
@@ -50,4 +52,11 @@ protected:
   MaterialProperty<Real> & _heatflux_jump_global;
   MaterialProperty<Real> & _interface_heatflux_aver;
   ///@}
+
+  /// The derivative of Q wrt the thermal gradient.
+  ///@{
+  MaterialProperty<RankTwoTensor> & _dQdT_e; // analogy: _dstress_dstrain, _Jacobian_mult
+  MaterialProperty<RankTwoTensor> & _dQdT_n; // analogy: _dstress_dstrain, _Jacobian_mult
+  ///@}
+
 };

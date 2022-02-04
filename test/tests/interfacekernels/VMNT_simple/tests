@@ -1,0 +1,28 @@
+[Tests]
+  parallel_scheduling = True
+  design = 'VMNTInterfaceKernelSimple.md'
+  [vmnt_simple1]
+    type = 'CSVDiff'
+    input = 'vmnt_simple1.i'
+    csvdiff = 'vmnt_simple1_out.csv'
+    requirement = "Interface kernel requires few parameters when no base names used."
+  []
+  [vmnt_bn0_act]
+    type = 'CSVDiff'
+    input = 'vmnt_bn0_act.i'
+    csvdiff = 'vmnt_bn0_act_out.csv'
+    requirement = "VMNT works when master action of Heat Diffusion is used."
+  []
+  [vmnt_bn0_act_aux]
+    type = 'Exodiff'
+    input = 'vmnt_bn0_act_aux.i'
+    exodiff = 'vmnt_bn0_act_aux_out.e'
+    requirement = "VMNT can output aux variables."
+  []
+  [vmnt_bn_act_aux]
+    type = 'CSVDiff'
+    input = 'vmnt_bn_act_aux.i'
+    csvdiff = 'vmnt_bn_act_aux_out.csv'
+    requirement = "Complex linkages with base names of kernels and interface kernels are possible."
+  []
+[]

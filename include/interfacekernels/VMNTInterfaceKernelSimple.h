@@ -57,6 +57,12 @@ protected:
   const MaterialProperty<Real> & _interface_heatflux_aver;
   ///@}
 
+  /// The derivative of Q wrt the thermal gradient.
+  ///@{
+  const MaterialProperty<RankTwoTensor> & _dQdT_e;
+  const MaterialProperty<RankTwoTensor> & _dQdT_n;
+  ///@}
+
 private:
 
   const Real pencoef = 1000.0; // hard code the penalty for now

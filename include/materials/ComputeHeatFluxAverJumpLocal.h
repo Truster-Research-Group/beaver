@@ -26,6 +26,9 @@ protected:
   /// Calculate for the actual heat flux average and jump
   void computeQpFluxAverJump() override;
 
+  /// Obtain the diffusivity tensors from materials on e and n sides
+  void obtainQpDiffTensors() override;
+
   /// Provide for the heat flux average and jump in global coordinates.
   virtual void computeGlobalFluxAverJump() = 0;
 
@@ -36,5 +39,11 @@ protected:
   ///@{
   const MaterialProperty<RealVectorValue> & _heat_flux_e;
   const MaterialProperty<RealVectorValue> & _heat_flux_n;
+  ///@}
+
+  /// The coupled derivative of Q wrt the thermal gradient.
+  ///@{
+  const MaterialProperty<RankTwoTensor> & _diff_tensor_e;
+  const MaterialProperty<RankTwoTensor> & _diff_tensor_n;
   ///@}
 };

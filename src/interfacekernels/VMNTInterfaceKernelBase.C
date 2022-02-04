@@ -42,7 +42,7 @@ VMNTInterfaceKernelBase::computeQpResidual(Moose::DGResidualType type)
   r += computeResiCons(type);
   /// Symmetrizing/adjoint term for residual
   if (_nis_flag != 0)
-    r += _nis_flag * computeResiSymm(type);
+    r += computeResiSymm(type);
   /// Flux/penalty term for residual
   if (_use_flux_penalty)
     r += computeResiFlux(type);
@@ -62,7 +62,7 @@ VMNTInterfaceKernelBase::computeQpJacobian(Moose::DGJacobianType type)
   j += computeJacoCons(type);
   /// Symmetrizing/adjoint term for Jacobian
   if (_nis_flag != 0)
-    j += _nis_flag * computeJacoSymm(type);
+    j += computeJacoSymm(type);
   /// Flux/penalty term for Jacobian
   if (_use_flux_penalty)
     j += computeJacoFlux(type);

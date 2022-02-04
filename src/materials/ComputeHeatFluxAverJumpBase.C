@@ -40,7 +40,9 @@ ComputeHeatFluxAverJumpBase::ComputeHeatFluxAverJumpBase(const InputParameters &
     _heatflux_jump_global(
         declarePropertyByName<Real>(_base_name + "heatflux_jump_global")),
     _interface_heatflux_aver(
-        declarePropertyByName<Real>(_base_name + "interface_heatflux_aver"))
+        declarePropertyByName<Real>(_base_name + "interface_heatflux_aver")),
+    _dQdT_e(declareProperty<RankTwoTensor>(_base_name + "dQdT_e")),
+    _dQdT_n(declareProperty<RankTwoTensor>(_base_name + "dQdT_n"))
 {
 }
 
@@ -55,4 +57,5 @@ void
 ComputeHeatFluxAverJumpBase::computeQpProperties()
 {
   computeQpFluxAverJump();
+  obtainQpDiffTensors();
 }
