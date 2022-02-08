@@ -10,3 +10,5 @@ The [!ac](Beaver) repository has a directory named `examples` with several subdi
 has code for a MOOSE-based application and input file(s) for running simulations. A guide explaining what each example demonstrates and how to use it is provided here:
 
 - [Example 1: Heat Diffusion Kernel Basic](examples/ex01_kernel.md)
+- [Example 2: Heat Diffusion Action](examples/ex02_action.md)
+- [Example 3: VMNT Interface Kernel Simple](examples/ex03_vmnt_simple.md)

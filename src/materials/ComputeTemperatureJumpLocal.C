@@ -16,7 +16,7 @@ ComputeTemperatureJumpLocal::validParams()
 {
   InputParameters params = ComputeTemperatureJumpBase::validParams();
   params.addClassDescription("Compute the total temperature jump across an interface"
-                             " in localcoordinates");
+                             " in local coordinates");
 
   return params;
 }
