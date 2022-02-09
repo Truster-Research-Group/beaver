@@ -15,7 +15,7 @@
  * The heat flux on each side is dotted with the unit normal vector to
  * obtain the component flowing across the interface. The derived classes
  * will request the heat flux vector from the element and neighbor side
- * using the paramters '_base_name_e' and '_base_name_n' provided, which
+ * using the parameters '_base_name_e' and '_base_name_n' provided, which
  * must point to an active Kernel/Material sequence in the adjacent blocks.
  */
 class ComputeHeatFluxAverJumpBase : public InterfaceMaterial
@@ -46,17 +46,21 @@ protected:
   /// the interface normal in the undeformed configuration
   const MooseArray<Point> & _normals;
 
-  /// the heat flux average and jump in global and interface coordinates.
+  /// the heat flux average and jump in global coordinates; 
+  /// TM-analogy: _traction_global
   ///@{
   MaterialProperty<Real> & _heatflux_aver_global;
   MaterialProperty<Real> & _heatflux_jump_global;
-  MaterialProperty<Real> & _interface_heatflux_aver;
   ///@}
 
-  /// The derivative of Q wrt the thermal gradient.
+  /// the heat flux average in interface coordinates; 
+  /// TM-analogy: _interface_traction
+  MaterialProperty<Real> & _interface_heatflux_aver;
+
+  /// The derivative of Q wrt the thermal gradient; TM-analogy: _dstress_dstrain
   ///@{
-  MaterialProperty<RankTwoTensor> & _dQdT_e; // analogy: _dstress_dstrain, _Jacobian_mult
-  MaterialProperty<RankTwoTensor> & _dQdT_n; // analogy: _dstress_dstrain, _Jacobian_mult
+  MaterialProperty<RankTwoTensor> & _dQdT_e;
+  MaterialProperty<RankTwoTensor> & _dQdT_n;
   ///@}
 
 };

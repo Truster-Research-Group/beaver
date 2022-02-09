@@ -44,8 +44,9 @@ protected:
   /// Prepend to the material properties
   const std::string _base_name;
 
-  /// The heat flux vector Q
-  MaterialProperty<RealVectorValue> & _heat_flux; // analogy: _stress
-  /// The derivative of Q wrt the thermal gradient
-  MaterialProperty<RankTwoTensor> & _diff_tensor; // analogy: _dstress_dstrain, _Jacobian_mult
+  /// The heat flux vector Q; TM-analogy: _stress
+  MaterialProperty<RealVectorValue> & _heat_flux;
+  /// The derivative of Q wrt the thermal gradient;
+  /// TM-analogy: _dstress_dstrain, _Jacobian_mult
+  MaterialProperty<RankTwoTensor> & _diff_tensor; 
 };

@@ -30,10 +30,7 @@ protected:
   /// Provide for the actual heat flux update
   virtual void computeQpHeatFlux() = 0;
 
-private:
-  /// None
-
 protected:
-  /// Thermal gradient
+  /// Thermal gradient material vector; TM-analogy: _mechanical_strain
   const MaterialProperty<RealVectorValue> & _grad_t;
 };

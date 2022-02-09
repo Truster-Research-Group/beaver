@@ -17,7 +17,6 @@
 
 #include "BlockRestrictable.h"
 
-#include "HomogenizationConstraintIntegral.h" // just for the constants
 #include "AddVariableAction.h"
 
 #include "libmesh/string_to_enum.h"
@@ -49,7 +48,8 @@ InputParameters
 HeatDiffusionAction::validParams()
 {
   InputParameters params = HeatDiffusionActionBase::validParams();
-  params.addClassDescription("Set up heat divergence kernels and materials in sequence");
+  params.addClassDescription("Set up heat divergence kernels "
+                             "and materials in sequence");
 
   // parameters specified here only appear in the input file sub-blocks of the
   // Master action, not in the common parameters area

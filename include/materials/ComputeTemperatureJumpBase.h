@@ -40,7 +40,8 @@ protected:
   const VariableValue & _temp_neighbor;
   ///@}
 
-  /// the temperature jump in global and interface coordiantes
+  /// the temperature jump in global and interface coordiantes;
+  /// TM-analogy: _displacement_jump_global, _interface_displacement_jump
   ///@{
   MaterialProperty<Real> & _temp_jump_global;
   MaterialProperty<Real> & _interface_temp_jump;

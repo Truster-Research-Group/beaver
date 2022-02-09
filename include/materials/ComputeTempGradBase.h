@@ -34,9 +34,9 @@ protected:
   /// Base name of the material system
   const std::string _base_name;
 
-  // Thermal gradient vector
-  MaterialProperty<RealVectorValue> & _grad_t; // analogy: _mechanical_strain;
+  /// Thermal gradient material vector; TM-analogy: _mechanical_strain
+  MaterialProperty<RealVectorValue> & _grad_t;
 
-  // Holder gradient vector
-  MaterialProperty<RealVectorValue> & _hold_t; // analogy: _total_strain;
+  /// Holder gradient material vector; TM-analogy: _total_strain
+  MaterialProperty<RealVectorValue> & _hold_t;
 };

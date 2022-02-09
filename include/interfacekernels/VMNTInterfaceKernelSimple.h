@@ -41,21 +41,26 @@ protected:
   /// Damage term for Jacobian
   Real computeJacoDebo(const Moose::DGJacobianType type) const override;
 
+  /// Input property to allow user modifying penalty parameter
+  const Real _pen_scale;
 
-  const Real _pen_scale; // user modifying
-
-  /// the temperature jump in global and interface coordiantes
+  /// the temperature jump in global and interface coordiantes;
+  /// TM-analogy: _displacement_jump_global, _interface_displacement_jump
   ///@{
   const MaterialProperty<Real> & _temp_jump_global;
   const MaterialProperty<Real> & _interface_temp_jump;
   ///@}
 
-  /// the heat flux average and jump in global and interface coordinates.
+  /// the heat flux average and jump in global coordinates; 
+  /// TM-analogy: _traction_global
   ///@{
   const MaterialProperty<Real> & _heatflux_aver_global;
   const MaterialProperty<Real> & _heatflux_jump_global;
-  const MaterialProperty<Real> & _interface_heatflux_aver;
   ///@}
+
+  /// the heat flux average in interface coordinates; 
+  /// TM-analogy: _interface_traction
+  const MaterialProperty<Real> & _interface_heatflux_aver;
 
   /// The derivative of Q wrt the thermal gradient.
   ///@{
@@ -65,5 +70,6 @@ protected:
 
 private:
 
-  const Real pencoef = 1000.0; // hard code the penalty for now
+  /// hard code the penalty for now
+  const Real pencoef = 1000.0; 
 };

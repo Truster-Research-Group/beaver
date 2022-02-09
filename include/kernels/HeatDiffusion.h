@@ -28,13 +28,10 @@ protected:
   /// On diagonal Jacobian, only involves the heat diffusion kernel
   virtual Real computeQpJacobian() override;
 
-private:
-  /// None
-
 protected:
-  /// The heat flux vector
-  const MaterialProperty<RealVectorValue> & _Qvec; // analogy: _stress
+  /// The heat flux vector, 'get' from material _heat_flux; TM-analogy: _stress
+  const MaterialProperty<RealVectorValue> & _Qvec;
   /// The derivative of the Q heat flux with respect to the
-  /// temperature
-  const MaterialProperty<RankTwoTensor> & _dQdT; // analogy: _Jacobian_mult
+  /// temperature, 'get' from material _diff_tensor; TM-analogy: _Jacobian_mult
+  const MaterialProperty<RankTwoTensor> & _dQdT;
 };

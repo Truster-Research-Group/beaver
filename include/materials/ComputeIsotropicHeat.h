@@ -25,5 +25,6 @@ protected:
   virtual void computeQpHeatFlux() override;
 
 protected:
+  /// Isotropic diffusivity material parameter, from generic MOOSE material
   const MaterialProperty<Real> & _D;
 };

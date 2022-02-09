@@ -35,13 +35,14 @@ protected:
   /// Provide for the heat flux average in interface coordinates.
   virtual void computeLocalHeatFluxAver() = 0;
 
-  /// the coupled flux and neighbor flux values
+  /// the coupled (from ComputeHeatFluxBase) flux and neighbor flux values
   ///@{
   const MaterialProperty<RealVectorValue> & _heat_flux_e;
   const MaterialProperty<RealVectorValue> & _heat_flux_n;
   ///@}
 
-  /// The coupled derivative of Q wrt the thermal gradient.
+  /// The coupled (from ComputeHeatFluxBase) derivative of Q wrt the thermal gradient.
+  /// Used to construct _dQdT_e and _dQdT_n in the base class.
   ///@{
   const MaterialProperty<RankTwoTensor> & _diff_tensor_e;
   const MaterialProperty<RankTwoTensor> & _diff_tensor_n;
