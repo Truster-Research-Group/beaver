@@ -1,6 +1,6 @@
 [Tests]
   parallel_scheduling = True
-  design = '???/HeatDiffusionAction.md'
+  design = 'syntax/Beaver/VMNT/HeatDiff/index.md'
   [heat_diff_action_all]
     type = 'Exodiff'
     input = 'action_all.i'

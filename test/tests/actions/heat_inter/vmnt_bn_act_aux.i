@@ -36,21 +36,6 @@
   []
 []
 
-[AuxVariables]
-  [./tjg]
-    order = CONSTANT
-    family = MONOMIAL
-  [../]
-  [./hag]
-    order = CONSTANT
-    family = MONOMIAL
-  [../]
-  [./hjg]
-    order = CONSTANT
-    family = MONOMIAL
-  [../]
-[]
-
 [GlobalParams]
   temp = 'u'
 []

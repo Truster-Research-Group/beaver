@@ -37,8 +37,8 @@ HeatInterAction::HeatInterAction(const InputParameters & params)
     _temp(getParam<std::vector<VariableName>>("temp")),
     _ntemp(_temp.size()),
     _base_name(isParamValid("base_name") ? getParam<std::string>("base_name") + "_" : ""),
-    _base_name_e(isParamValid("base_name_e") ? getParam<std::string>("base_name_e") + "_" : ""),
-    _base_name_n(isParamValid("base_name_n") ? getParam<std::string>("base_name_n") + "_" : ""),
+    _base_name_e(isParamValid("base_name_e") ? getParam<std::string>("base_name_e") : ""),
+    _base_name_n(isParamValid("base_name_n") ? getParam<std::string>("base_name_n") : ""),
     _boundary(getParam<std::vector<BoundaryName>>("boundary")),
     _fluxaver(getParam<MooseEnum>("flux_type").getEnum<FluxAver>()),
     _nis_flag(getParam<int>("nis_flag")),
@@ -124,7 +124,8 @@ HeatInterAction::addRequiredVMNTInterfaceKernels()
     paramsk.set<std::vector<BoundaryName>>("boundary") = _boundary;
     if (!_base_name.empty())
     {
-      paramsk.set<std::string>("base_name") = _base_name;
+      // _base_name has a '_' at the end, so look up the original parameter
+      paramsk.set<std::string>("base_name") = getParam<std::string>("base_name");
     }
     paramsk.set<int>("nis_flag") = _nis_flag;
     paramsk.set<bool>("use_flux_penalty") = _use_flux_penalty;
@@ -162,7 +163,8 @@ HeatInterAction::addRequiredVMNTInterfaceMaterials()
   paramsm.set<std::vector<VariableName>>("temp") = _temp;
   if (!_base_name.empty())
   {
-    paramsm.set<std::string>("base_name") = _base_name;
+    // _base_name has a '_' at the end, so look up the original parameter
+    paramsm.set<std::string>("base_name") = getParam<std::string>("base_name");
   }
   _problem->addInterfaceMaterial(_temp_jump_provider_name, unique_material_name, paramsm);
 
@@ -173,14 +175,17 @@ HeatInterAction::addRequiredVMNTInterfaceMaterials()
   ;
   if (!_base_name.empty())
   {
-    paramsm.set<std::string>("base_name") = _base_name;
+    // _base_name has a '_' at the end, so look up the original parameter
+    paramsm.set<std::string>("base_name") = getParam<std::string>("base_name");
   }
   if (!_base_name_e.empty())
   {
+    // this parameter is clean, no '_'
     paramsm.set<std::string>("base_name_e") = _base_name_e;
   }
   if (!_base_name_n.empty())
   {
+    // this parameter is clean, no '_'
     paramsm.set<std::string>("base_name_n") = _base_name_n;
   }
   _problem->addInterfaceMaterial(

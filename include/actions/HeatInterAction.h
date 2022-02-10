@@ -55,18 +55,21 @@ protected:
   const unsigned int _ntemp;
 
   /// Base name of the material system
+  /// Constructed WITH a "_" appended
   const std::string _base_name;
 
   /// Base name of heat flux on element side
+  /// Constructed WITHOUT a "_" appended
   const std::string _base_name_e;
 
   /// Base name of heat flux on neighbor side
+  /// Constructed WITHOUT a "_" appended
   const std::string _base_name_n;
 
-  /// Base name of the material system
+  /// Name of the interface to make objects for
   const std::vector<BoundaryName> _boundary;
 
-  /// flux averate formulation
+  /// flux average formulation
   enum class FluxAver
   {
     Simple,
