@@ -28,8 +28,8 @@ associateSyntaxInner(Syntax & syntax, ActionFactory & /*action_factory*/)
   registerSyntax("CommonHeatDiffusionAction", "Beaver/VMNT/HeatDiff/");
   registerSyntax("HeatDiffusionAction", "Beaver/VMNT/HeatDiff/*");
 
-  registerTask("output_penetration_info_vars", false);
-  syntax.addDependency("output_penetration_info_vars", "add_output");
+  registerSyntax("CommonHeatInterAction", "Beaver/VMNT/HeatInter");
+  registerSyntax("HeatInterAction", "Beaver/VMNT/HeatInter/*");
 }
 
 void

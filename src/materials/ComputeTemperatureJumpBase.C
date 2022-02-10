@@ -24,9 +24,7 @@ ComputeTemperatureJumpBase::validParams()
 
 ComputeTemperatureJumpBase::ComputeTemperatureJumpBase(const InputParameters & parameters)
   : InterfaceMaterial(parameters),
-    _base_name(isParamValid("base_name") && !getParam<std::string>("base_name").empty()
-                   ? getParam<std::string>("base_name") + "_"
-                   : ""),
+    _base_name(isParamValid("base_name") ? getParam<std::string>("base_name") + "_" : ""),
     _normals(_assembly.normals()),
     _temp(coupledValue("temp")),
     _temp_neighbor(coupledNeighborValue("temp")),

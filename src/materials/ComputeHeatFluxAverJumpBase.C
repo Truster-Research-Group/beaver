@@ -25,15 +25,9 @@ ComputeHeatFluxAverJumpBase::validParams()
 
 ComputeHeatFluxAverJumpBase::ComputeHeatFluxAverJumpBase(const InputParameters & parameters)
   : InterfaceMaterial(parameters),
-    _base_name(isParamValid("base_name") && !getParam<std::string>("base_name").empty()
-                   ? getParam<std::string>("base_name") + "_"
-                   : ""),
-    _base_name_e(isParamValid("base_name_e") && !getParam<std::string>("base_name_e").empty()
-                   ? getParam<std::string>("base_name_e") + "_"
-                   : ""),
-    _base_name_n(isParamValid("base_name_n") && !getParam<std::string>("base_name_n").empty()
-                   ? getParam<std::string>("base_name_n") + "_"
-                   : ""),
+    _base_name(isParamValid("base_name") ? getParam<std::string>("base_name") + "_" : ""),
+    _base_name_e(isParamValid("base_name_e") ? getParam<std::string>("base_name_e") + "_" : ""),
+    _base_name_n(isParamValid("base_name_n") ? getParam<std::string>("base_name_n") + "_" : ""),
     _normals(_assembly.normals()),
     _heatflux_aver_global(
         declarePropertyByName<Real>(_base_name + "heatflux_aver_global")),
