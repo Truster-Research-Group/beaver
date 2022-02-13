@@ -7,30 +7,30 @@
 //* Licensed under LGPL 2.1, please see LICENSE for details
 //* https://www.gnu.org/licenses/lgpl-2.1.html
 
-#include "CommonHeatInterAction.h"
-#include "HeatInterActionBase.h"
+#include "CommonTracInterAction.h"
+#include "TracInterActionBase.h"
 #include "ActionWarehouse.h"
 
-registerMooseAction("BeaverApp", CommonHeatInterAction, "meta_action");
+registerMooseAction("BeaverApp", CommonTracInterAction, "meta_action");
 
 InputParameters
-CommonHeatInterAction::validParams()
+CommonTracInterAction::validParams()
 {
-  InputParameters params = HeatInterActionBase::validParams();
-  params.addClassDescription("Store common heat diffusion Nitsche interface parameters");
+  InputParameters params = TracInterActionBase::validParams();
+  params.addClassDescription("Store common solid mechanics Nitsche interface parameters");
   return params;
 }
 
-CommonHeatInterAction::CommonHeatInterAction(const InputParameters & parameters)
+CommonTracInterAction::CommonTracInterAction(const InputParameters & parameters)
   : Action(parameters)
 {
 }
 
 void
-CommonHeatInterAction::act()
+CommonTracInterAction::act()
 {
   // check if sub-blocks block are found which will use the common parameters
-  auto action = _awh.getActions<HeatInterActionBase>();
+  auto action = _awh.getActions<TracInterActionBase>();
   if (action.size() == 0)
     mooseWarning("Common parameters are supplied, but not used in ", parameters().blockLocation());
 }

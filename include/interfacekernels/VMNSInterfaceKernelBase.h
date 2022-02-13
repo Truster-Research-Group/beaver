@@ -82,6 +82,6 @@ protected:
   /// 0=incomplete IIPG, -1=symmetric SIPG, +1=non-symmetric NIPG
   const int _nis_flag;
 
-  /// If true use flux penalty term
-  const bool _use_flux_penalty;
+  /// If true use traction penalty term
+  const bool _use_trac_penalty;
 };

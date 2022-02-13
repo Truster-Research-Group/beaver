@@ -30,6 +30,9 @@ associateSyntaxInner(Syntax & syntax, ActionFactory & /*action_factory*/)
 
   registerSyntax("CommonHeatInterAction", "Beaver/VMNT/HeatInter");
   registerSyntax("HeatInterAction", "Beaver/VMNT/HeatInter/*");
+
+  registerSyntax("CommonTracInterAction", "Beaver/VMNS/TracInter");
+  registerSyntax("TracInterAction", "Beaver/VMNS/TracInter/*");
 }
 
 void

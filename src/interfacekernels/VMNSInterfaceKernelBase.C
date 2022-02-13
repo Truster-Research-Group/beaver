@@ -24,7 +24,7 @@ VMNSInterfaceKernelBase::validParams()
   params.addRequiredCoupledVar("displacements", "the string containing displacement variables");
   params.addParam<std::string>("base_name", "Material property base name");
   params.addParam<int>("nis_flag", 0, "Integer for IIPG=0, SIPG=-1, or NIPG=+1 method");
-  params.addParam<bool>("use_flux_penalty", false, "Use heat flux jump penalty");
+  params.addParam<bool>("use_trac_penalty", false, "Use traction jump penalty");
 
   return params;
 }
@@ -40,7 +40,7 @@ VMNSInterfaceKernelBase::VMNSInterfaceKernelBase(const InputParameters & paramet
     _disp_neighbor_var(_ndisp),
     _vars(_ndisp),
     _nis_flag(getParam<int>("nis_flag")),
-    _use_flux_penalty(getParam<bool>("use_flux_penalty"))
+    _use_trac_penalty(getParam<bool>("use_trac_penalty"))
 {
   // Enforce consistency
   if (_ndisp != _mesh.dimension())
@@ -73,7 +73,7 @@ VMNSInterfaceKernelBase::computeQpResidual(Moose::DGResidualType type)
   if (_nis_flag != 0)
     r += computeResiSymm(type);
   /// Flux/penalty term for residual
-  if (_use_flux_penalty)
+  if (_use_trac_penalty)
     r += computeResiFlux(type);
 
   return r;
@@ -92,7 +92,7 @@ VMNSInterfaceKernelBase::computeQpJacobian(Moose::DGJacobianType type)
   if (_nis_flag != 0)
     j += computeJacoSymm(_component, type);
   /// Flux/penalty term for Jacobian
-  if (_use_flux_penalty)
+  if (_use_trac_penalty)
     j += computeJacoFlux(_component, type);
   /// Damage term for Jacobian
   j += computeJacoDebo(_component, type);
@@ -123,7 +123,7 @@ VMNSInterfaceKernelBase::computeQpOffDiagJacobian(Moose::DGJacobianType type, un
       if (_nis_flag != 0)
         j += computeJacoSymm(off_diag_component, type);
       /// Flux/penalty term for Jacobian
-      if (_use_flux_penalty)
+      if (_use_trac_penalty)
         j += computeJacoFlux(off_diag_component, type);
       /// Damage term for Jacobian
       j += computeJacoDebo(off_diag_component, type);
