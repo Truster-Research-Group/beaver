@@ -29,11 +29,36 @@ protected:
 
   /// Stability/penalty term for residual[_component]
   virtual Real computeResiStab(const Moose::DGResidualType type) const = 0;
+  /// Consistency term for residual[_component]
+  virtual Real computeResiCons(const Moose::DGResidualType type) const = 0;
+  /// Symmetrizing/adjoint term for residual[_component]
+  virtual Real computeResiSymm(const Moose::DGResidualType type) const = 0;
+  /// Flux/penalty term for residual[_component]
+  virtual Real computeResiFlux(const Moose::DGResidualType type) const = 0;
 
   /// Stability/penalty term for Jacobian 
   /// of residual[_component] w.r.t displacement[component_j]
   virtual Real computeJacoStab(const unsigned int & component_j,
                                const Moose::DGJacobianType & type) const = 0;
+  /// Consistency term for Jacobian
+  /// of residual[_component] w.r.t displacement[component_j]
+  virtual Real computeJacoCons(const unsigned int & component_j,
+                               const Moose::DGJacobianType & type) const = 0;
+  /// Symmetrizing/adjoint term for Jacobian
+  /// of residual[_component] w.r.t displacement[component_j]
+  virtual Real computeJacoSymm(const unsigned int & component_j,
+                               const Moose::DGJacobianType & type) const = 0;
+  /// Flux/penalty term for Jacobian
+  /// of residual[_component] w.r.t displacement[component_j]
+  virtual Real computeJacoFlux(const unsigned int & component_j,
+                               const Moose::DGJacobianType & type) const = 0;
+  /// Damage term for Jacobian
+  /// of residual[_component] w.r.t displacement[component_j]
+  virtual Real computeJacoDebo(const unsigned int & component_j,
+                               const Moose::DGJacobianType & type) const = 0;
+
+  /// Helper to assemble a full gradient operator from a gradient vector
+  virtual RankTwoTensor gradOp(const unsigned int m, const RealGradient & grad) const;
 
   /// Base name of the material system that this kernel applies to
   const std::string _base_name;

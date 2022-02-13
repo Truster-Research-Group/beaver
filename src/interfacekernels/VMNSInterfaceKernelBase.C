@@ -67,6 +67,14 @@ VMNSInterfaceKernelBase::computeQpResidual(Moose::DGResidualType type)
 
   /// Stability/penalty term for residual
   r += computeResiStab(type);
+  /// Consistency term for residual
+  r += computeResiCons(type);
+  /// Symmetrizing/adjoint term for residual
+  if (_nis_flag != 0)
+    r += computeResiSymm(type);
+  /// Flux/penalty term for residual
+  if (_use_flux_penalty)
+    r += computeResiFlux(type);
 
   return r;
 }
@@ -77,7 +85,17 @@ VMNSInterfaceKernelBase::computeQpJacobian(Moose::DGJacobianType type)
   Real j = 0.0;
   
   /// Stability/penalty term for Jacobian
-      j += computeJacoStab(_component, type);
+  j += computeJacoStab(_component, type);
+  /// Consistency term for Jacobian
+  j += computeJacoCons(_component, type);
+  /// Symmetrizing/adjoint term for Jacobian
+  if (_nis_flag != 0)
+    j += computeJacoSymm(_component, type);
+  /// Flux/penalty term for Jacobian
+  if (_use_flux_penalty)
+    j += computeJacoFlux(_component, type);
+  /// Damage term for Jacobian
+  j += computeJacoDebo(_component, type);
 
   return j;
 }
@@ -99,9 +117,29 @@ VMNSInterfaceKernelBase::computeQpOffDiagJacobian(Moose::DGJacobianType type, un
   
       /// Stability/penalty term for Jacobian
       j += computeJacoStab(off_diag_component, type);
+      /// Consistency term for Jacobian
+      j += computeJacoCons(off_diag_component, type);
+      /// Symmetrizing/adjoint term for Jacobian
+      if (_nis_flag != 0)
+        j += computeJacoSymm(off_diag_component, type);
+      /// Flux/penalty term for Jacobian
+      if (_use_flux_penalty)
+        j += computeJacoFlux(off_diag_component, type);
+      /// Damage term for Jacobian
+      j += computeJacoDebo(off_diag_component, type);
       return j;
   }
 
   // this is the place where one should implement derivatives of the residual w.r.t. other variables
   return 0.0;
+}
+
+RankTwoTensor
+VMNSInterfaceKernelBase::gradOp(const unsigned int m, const RealGradient & grad) const
+{
+  RankTwoTensor G;
+  for (size_t j = 0; j < _ndisp; j++)
+    G(m, j) = grad(j);
+
+  return G;
 }

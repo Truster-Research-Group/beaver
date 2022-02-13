@@ -83,7 +83,7 @@
     neighbor_var = disp_x
     component = 0
     boundary = interface
-    pen_scale = 0.01
+    #pen_scale = 0.01
   [../]
   [./vmns_y]
     type = VMNSInterfaceKernelSimple
@@ -91,7 +91,7 @@
     neighbor_var = disp_y
     component = 1
     boundary = interface
-    pen_scale = 0.01
+    #pen_scale = 0.01
   [../]
   [./vmns_z]
     type = VMNSInterfaceKernelSimple
@@ -99,7 +99,7 @@
     neighbor_var = disp_z
     component = 2
     boundary = interface
-    pen_scale = 0.01
+    #pen_scale = 0.01
   [../]
 []
 
