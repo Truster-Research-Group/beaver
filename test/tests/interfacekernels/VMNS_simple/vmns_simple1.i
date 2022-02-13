@@ -269,13 +269,12 @@
   []
   [./dispjump]
     type = CZMComputeDisplacementJumpSmallStrain
-    # displacements = u
     boundary = interface
   [../]
-  #[./tracaver]
-    #type = ComputeTractionAverJumpLocal
-    #boundary = interface
-  #[../]
+  [./tracaver]
+    type = ComputeTractionAverJumpSimple
+    boundary = interface
+  [../]
 []
 
 [BCs]
