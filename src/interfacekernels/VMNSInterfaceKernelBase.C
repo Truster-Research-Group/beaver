@@ -83,7 +83,7 @@ Real
 VMNSInterfaceKernelBase::computeQpJacobian(Moose::DGJacobianType type)
 {
   Real j = 0.0;
-  
+
   /// Stability/penalty term for Jacobian
   j += computeJacoStab(_component, type);
   /// Consistency term for Jacobian
@@ -114,7 +114,7 @@ VMNSInterfaceKernelBase::computeQpOffDiagJacobian(Moose::DGJacobianType type, un
   for (unsigned int off_diag_component = 0; off_diag_component < _ndisp; ++off_diag_component)
   {
     if (jvar == _disp_var[off_diag_component])
-  
+    {
       /// Stability/penalty term for Jacobian
       j += computeJacoStab(off_diag_component, type);
       /// Consistency term for Jacobian
@@ -128,6 +128,7 @@ VMNSInterfaceKernelBase::computeQpOffDiagJacobian(Moose::DGJacobianType type, un
       /// Damage term for Jacobian
       j += computeJacoDebo(off_diag_component, type);
       return j;
+    }
   }
 
   // this is the place where one should implement derivatives of the residual w.r.t. other variables
