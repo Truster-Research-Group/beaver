@@ -4,6 +4,12 @@
 
 The Beaver VMNT Heat Diffusion Master Action is a convenience object to simplify setting up a heat diffusion domain system.
 
+It performs
+
+- Add HeatDiffusion Kernels
+- Add Thermal Gradient calculation material (for the chosen gradient model)
+- Optional: Setup of temperature variable (with the correct order for the current mesh)
+- Optional: Add AuxVariables and AuxKernels for various material vector components and quantity outputs
 
 ### Subblocks
 
