@@ -10,73 +10,78 @@
 #pragma once
 
 #include "InterfaceKernel.h"
-#include "DerivativeMaterialInterface.h"
 #include "JvarMapInterface.h"
 
-/// Base class for implementing Variational Multiscale Nitsche (VMN)
-/// Solid (S) mechanics weak interface coupling models in 1D, 2D, and 3D.
-/// Constructed in the spirit of the new "Lagrangian" kernel.
-///
-/// This class provides common input properties and helper methods,
-/// most of the math has to be done in the subclasses
-///
-class VMNSInterfaceKernelBase
-  : public JvarMapKernelInterface<DerivativeMaterialInterface<InterfaceKernel>>
+/// Base class for implementing DG cohesive zone models (CZM) for 1D,2D, and 3D
+/// traction separation laws. This kernel operates only on
+/// a single displacement compenent.
+/// One kernel is required for each displacement component.
+class VMNSInterfaceKernelBase : public JvarMapKernelInterface<InterfaceKernel>
 {
 public:
   static InputParameters validParams();
   VMNSInterfaceKernelBase(const InputParameters & parameters);
 
 protected:
+  Real computeQpResidual(Moose::DGResidualType type) override;
+  Real computeQpJacobian(Moose::DGJacobianType type) override;
+  Real computeQpOffDiagJacobian(Moose::DGJacobianType type, unsigned int jvar) override;
 
-  /// Override residual calculation to provide for element-level averaging
-  virtual void computeResidual() override;
-  /// Override  on-diagonal Jacobian to provide for element-level averaging
-  virtual void computeJacobian() override;
-  /// Override off diagonal Jacobian loop for averaging for stabilization
-  virtual void computeOffDiagJacobian(const unsigned int jvar) override;
-  
-  /// Override with any initial setup for the residual
-  virtual void precalculateResidual() override;
-  
-  /// Override with any initial setup for the kernel
-  virtual void precalculateJacobian() override;
+  /// Stability/penalty term for residual[_component]
+  virtual Real computeResiStab(const Moose::DGResidualType type) const = 0;
+  /// Consistency term for residual[_component]
+  virtual Real computeResiCons(const Moose::DGResidualType type) const = 0;
+  /// Symmetrizing/adjoint term for residual[_component]
+  virtual Real computeResiSymm(const Moose::DGResidualType type) const = 0;
+  /// Flux/penalty term for residual[_component]
+  virtual Real computeResiFlux(const Moose::DGResidualType type) const = 0;
 
-  /// Helper to assemble the stabilized gradient operator
-  virtual RankTwoTensor fullGrad(unsigned int m,
-                                 bool use_stable,
-                                 const RealGradient & base_grad,
-                                 const RealGradient & avg_grad);
-
-  /// Override with the actual stabilization calculation
-  virtual RankTwoTensor stabilizeGrad(const RankTwoTensor & base, const RankTwoTensor & avg) = 0;
+  /// Stability/penalty term for Jacobian 
+  /// of residual[_component] w.r.t displacement[component_j]
+  virtual Real computeJacoStab(const unsigned int & component_j,
+                               const Moose::DGJacobianType & type) const = 0;
+  /// Consistency term for Jacobian
+  /// of residual[_component] w.r.t displacement[component_j]
+  virtual Real computeJacoCons(const unsigned int & component_j,
+                               const Moose::DGJacobianType & type) const = 0;
+  /// Symmetrizing/adjoint term for Jacobian
+  /// of residual[_component] w.r.t displacement[component_j]
+  virtual Real computeJacoSymm(const unsigned int & component_j,
+                               const Moose::DGJacobianType & type) const = 0;
+  /// Flux/penalty term for Jacobian
+  /// of residual[_component] w.r.t displacement[component_j]
+  virtual Real computeJacoFlux(const unsigned int & component_j,
+                               const Moose::DGJacobianType & type) const = 0;
+  /// Damage term for Jacobian
+  /// of residual[_component] w.r.t displacement[component_j]
+  virtual Real computeJacoDebo(const unsigned int & component_j,
+                               const Moose::DGJacobianType & type) const = 0;
 
   /// Helper to assemble a full gradient operator from a gradient vector
-  virtual RankTwoTensor gradOp(unsigned int m, const RealGradient & grad);
+  virtual RankTwoTensor gradOp(const unsigned int m, const RealGradient & grad) const;
 
-protected:
-
-  /// If true use large deformation kinematics
-  const bool _large_kinematics;
-
-  /// If true calculate the deformation gradient derivatives for F_bar
-  const bool _stabilize_strain { false }; // hard code false for now
-
-  /// Prepend to the material properties
+  /// Base name of the material system that this kernel applies to
   const std::string _base_name;
 
-  /// Which component of the vector residual this kernel is responsible for
+  /// the displacement component this kernel is operating on (0=x, 1=y, 2 =z)
   const unsigned int _component;
-  /// Total number of displacements/size of residual vector
+
+  /// number of displacement components
   const unsigned int _ndisp;
 
-  /// The displacement numbers
-  std::vector<unsigned int> _disp_nums;
+  /// Coupled displacement component variable IDs
+  ///@{
+  std::vector<unsigned int> _disp_var;
+  std::vector<unsigned int> _disp_neighbor_var;
+  ///@}
 
-  /// Temperature, if provided.  This is used only to get the trial functions
-  const MooseVariable * _temperature;
+  // pointer to displacement variables
+  std::vector<MooseVariable *> _vars;
 
-  /// Eigenstrain derivatives wrt generate coupleds
-  std::vector<std::vector<const MaterialProperty<RankTwoTensor> *>> _deigenstrain_dargs;
+  /// Symmetrizing parameter, called theta or beta in some papers
+  /// 0=incomplete IIPG, -1=symmetric SIPG, +1=non-symmetric NIPG
+  const int _nis_flag;
 
+  /// If true use traction penalty term
+  const bool _use_trac_penalty;
 };

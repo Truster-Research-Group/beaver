@@ -1,0 +1,28 @@
+[Tests]
+  parallel_scheduling = True
+  design = 'syntax/Beaver/VMNS/TracInter/index.md'
+  [vmns_simple1]
+    type = 'CSVDiff'
+    input = 'vmns_simple1.i'
+    csvdiff = 'vmns_simple1_out.csv'
+    requirement = "Action with no optional arguments, only temp for all blocks."
+  []
+  [vmns_bn0_act]
+    type = 'Exodiff'
+    input = 'vmns_bn0_act.i'
+    exodiff = 'vmns_bn0_act_out.e'
+    requirement = "Two actions together with GlobalParam require very few arguments."
+  []
+  [vmns_bn0_act_aux]
+    type = 'Exodiff'
+    input = 'vmns_bn0_act_aux.i'
+    exodiff = 'vmns_bn0_act_aux_out.e'
+    requirement = "Both actions can output aux variables."
+  []
+  [vmns_bn_act_aux]
+    type = 'CSVDiff'
+    input = 'vmns_bn_act_aux.i'
+    csvdiff = 'vmns_bn_act_aux_out.csv'
+    requirement = "Complex linkages with base names of kernels and interface kernels are possible."
+  []
+[]

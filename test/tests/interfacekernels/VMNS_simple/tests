@@ -1,0 +1,28 @@
+[Tests]
+  parallel_scheduling = True
+  design = 'VMNSInterfaceKernelSimple.md'
+  [vmns_simple1]
+    type = 'Exodiff'
+    input = 'vmns_simple1.i'
+    exodiff = 'vmns_simple1_out.e'
+    requirement = "Interface kernel requires few parameters when no base names used."
+  []
+  [vmns_simple2]
+    type = 'CSVDiff'
+    input = 'vmns_simple2.i'
+    csvdiff = 'vmns_simple2_out.csv'
+    requirement = "Interface kernel can work for large strain formulation."
+  []
+  [vmns_bn0_act_aux]
+    type = 'Exodiff'
+    input = 'vmns_bn0_act_aux.i'
+    exodiff = 'vmns_bn0_act_aux_out.e'
+    requirement = "VMNS can output aux variables."
+  []
+  [vmns_bn_act_aux]
+    type = 'CSVDiff'
+    input = 'vmns_bn_act_aux.i'
+    csvdiff = 'vmns_bn_act_aux_out.csv'
+    requirement = "Complex linkages with base names of kernels and interface kernels are possible."
+  []
+[]
