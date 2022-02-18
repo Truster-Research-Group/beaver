@@ -11,6 +11,11 @@
 
 #include "TracInterActionBase.h"
 
+/**
+ * Master action for defining sequenced traction VMNS kernel,
+ * material, and output auxvariables and auxkernels
+ */
+
 class TracInterAction : public TracInterActionBase
 {
 public:

@@ -11,6 +11,11 @@
 
 #include "HeatInterActionBase.h"
 
+/**
+ * Master action for defining sequenced heat flux VMNT kernel,
+ * material, and output auxvariables and auxkernels
+ */
+
 class HeatInterAction : public HeatInterActionBase
 {
 public:

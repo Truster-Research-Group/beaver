@@ -11,6 +11,9 @@
 
 #include "Action.h"
 
+/**
+ * Action to create an instance of the VMNS kernel for the displacement field
+ */
 class TracInterActionBase : public Action
 {
 public:

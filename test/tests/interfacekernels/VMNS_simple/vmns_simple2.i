@@ -329,7 +329,14 @@
   solve_type = NEWTON
 []
 
+[Postprocessors]
+  [max]
+    type = ElementExtremeValue
+    variable = disp_x
+  []
+[]
+
 [Outputs]
-  exodus = true
+  csv = true
 []
 

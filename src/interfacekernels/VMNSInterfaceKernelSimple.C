@@ -9,7 +9,7 @@
 
 #include "VMNSInterfaceKernelSimple.h"
 
-registerMooseObject("TensorMechanicsApp", VMNSInterfaceKernelSimple);
+registerMooseObject("BeaverApp", VMNSInterfaceKernelSimple);
 
 InputParameters
 VMNSInterfaceKernelSimple::validParams()
