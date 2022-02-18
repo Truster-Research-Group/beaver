@@ -1,4 +1,4 @@
-# VMNT InterfaceKernelSimple
+# VMNTInterfaceKernelSimple
 
 !syntax description /InterfaceKernels/VMNTInterfaceKernelSimple
 

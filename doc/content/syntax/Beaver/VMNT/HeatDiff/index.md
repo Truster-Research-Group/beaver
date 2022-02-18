@@ -1,6 +1,6 @@
 # VMNT Heat Diffusion System
 
-!syntax description /Beaver/VMNT/HeatDiff
+!syntax description /Beaver/VMNT/HeatDiff/HeatDiffusionAction
 
 The Beaver VMNT Heat Diffusion Master Action is a convenience object to simplify setting up a heat diffusion domain system.
 

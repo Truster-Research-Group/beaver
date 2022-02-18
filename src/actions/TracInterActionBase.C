@@ -44,8 +44,8 @@ TracInterActionBase::validParams()
 
   // Advanced
   params.addParam<std::string>("base_name", "Material property base name");
-  params.addParam<std::string>("base_name_e", "Base name of heat flux on element side");
-  params.addParam<std::string>("base_name_n", "Base name of heat flux on neighbor side");
+  params.addParam<std::string>("base_name_e", "Base name of traction on element side");
+  params.addParam<std::string>("base_name_n", "Base name of traction on neighbor side");
   params.addParam<std::vector<AuxVariableName>>("save_in_master",
                                                 "The displacement residuals on the  master side");
   params.addParam<std::vector<AuxVariableName>>(
