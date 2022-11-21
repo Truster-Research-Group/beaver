@@ -1,0 +1,49 @@
+[Tests]
+  parallel_scheduling = True
+  design = 'syntax/Beaver/VMNT/HeatDiff/index.md'
+  [heat_diff_action_all]
+    type = 'Exodiff'
+    input = 'action_all.i'
+    exodiff = 'action_all_out.e'
+    requirement = "Action with no optional arguments, only temp for all blocks."
+  []
+  [heat_diff_action_add]
+    type = 'CSVDiff'
+    input = 'action_add.i'
+    csvdiff = 'action_add_out.csv'
+    requirement = "With global parameter temp and add_variable, action will make MOOSE field"
+  []
+#   [heat_diff_action_base2]
+#     type = 'RunException'
+#     input = 'action_base2.i'
+#     expect_err = "Each subdomain must contain at least one Kernel.\nThe following block(s) lack an active kernel: 0 1 3 "
+#     requirement = "If one block is defined specially, then all must be too."
+#   []
+#   [heat_diff_action_base2grad]
+#     type = 'RunException'
+#     input = 'action_base2grad.i'
+#     expect_err = "The following error occurred in the object "MOOSE Problem", of type "FEProblem".
+# Material property 'G2_grad_T', requested by 'flux2' is not defined on block 2
+# Material property 'G2_grad_T', requested by 'flux2_face' is not defined on block 2
+# Material property 'G2_grad_T', requested by 'flux2_neighbor' is not defined on block 2"
+#     requirement = "If a block has a base_name, then grad_base_name should match too."
+#   []
+  [heat_diff_action_grad2]
+    type = 'CSVDiff'
+    input = 'action_grad2.i'
+    csvdiff = 'action_grad2_out.csv'
+    requirement = "If a block has a base_name, then grad_base_name must be specified."
+  []
+  [heat_diff_action_aux]
+    type = 'Exodiff'
+    input = 'action_aux.i'
+    exodiff = 'action_aux_out.e'
+    requirement = "generate_output will make aux-variables and aux-kernels in each block pre-pending base_name."
+  []
+  [heat_diff_action_output]
+    type = 'CSVDiff'
+    input = 'action_output.i'
+    csvdiff = 'action_output_out.csv'
+    requirement = "additional_generate_output will make additional aux-variables just for the target block."
+  []
+[]

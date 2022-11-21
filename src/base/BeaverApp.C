@@ -22,6 +22,19 @@ BeaverApp::BeaverApp(InputParameters parameters) : MooseApp(parameters)
 
 BeaverApp::~BeaverApp() {}
 
+static void
+associateSyntaxInner(Syntax & syntax, ActionFactory & /*action_factory*/)
+{
+  registerSyntax("CommonHeatDiffusionAction", "Beaver/VMNT/HeatDiff/");
+  registerSyntax("HeatDiffusionAction", "Beaver/VMNT/HeatDiff/*");
+
+  registerSyntax("CommonHeatInterAction", "Beaver/VMNT/HeatInter");
+  registerSyntax("HeatInterAction", "Beaver/VMNT/HeatInter/*");
+
+  registerSyntax("CommonTracInterAction", "Beaver/VMNS/TracInter");
+  registerSyntax("TracInterAction", "Beaver/VMNS/TracInter/*");
+}
+
 void
 BeaverApp::registerAll(Factory & f, ActionFactory & af, Syntax & syntax)
 {
@@ -30,6 +43,7 @@ BeaverApp::registerAll(Factory & f, ActionFactory & af, Syntax & syntax)
   Registry::registerActionsTo(af, {"BeaverApp"});
 
   /* register custom execute flags, action syntax, etc. here */
+  associateSyntaxInner(syntax, af);
 }
 
 void

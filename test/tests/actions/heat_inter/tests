@@ -1,0 +1,28 @@
+[Tests]
+  parallel_scheduling = True
+  design = 'syntax/Beaver/VMNT/HeatInter/index.md'
+  [vmnt_simple1]
+    type = 'CSVDiff'
+    input = 'vmnt_simple1.i'
+    csvdiff = 'vmnt_simple1_out.csv'
+    requirement = "Action with no optional arguments, only temp for all blocks."
+  []
+  [vmnt_bn0_act]
+    type = 'Exodiff'
+    input = 'vmnt_bn0_act.i'
+    exodiff = 'vmnt_bn0_act_out.e'
+    requirement = "Two actions together with GlobalParam require very few arguments."
+  []
+  [vmnt_bn0_act_aux]
+    type = 'Exodiff'
+    input = 'vmnt_bn0_act_aux.i'
+    exodiff = 'vmnt_bn0_act_aux_out.e'
+    requirement = "Both actions can output aux variables."
+  []
+  [vmnt_bn_act_aux]
+    type = 'CSVDiff'
+    input = 'vmnt_bn_act_aux.i'
+    csvdiff = 'vmnt_bn_act_aux_out.csv'
+    requirement = "Complex linkages with base names of kernels and interface kernels are possible."
+  []
+[]
