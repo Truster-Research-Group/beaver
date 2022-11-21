@@ -11,12 +11,11 @@
 #include "CommonHeatDiffusionAction.h"
 #include "ActionWarehouse.h"
 #include "AddAuxVariableAction.h"
+#include "InputParameterWarehouse.h"
 
 // map vector name shortcuts to tensor material property names
-std::map<std::string, std::string> HeatDiffusionActionBase::_rank_one_cartesian_component_table =
-    {{"total_t", "hold_t"},
-     {"grad_t", "grad_t"},
-     {"heat_flux", "heat_flux"}};
+std::map<std::string, std::string> HeatDiffusionActionBase::_rank_one_cartesian_component_table = {
+    {"total_t", "hold_t"}, {"grad_t", "grad_t"}, {"heat_flux", "heat_flux"}};
 const std::vector<char> HeatDiffusionActionBase::_component_table = {'x', 'y', 'z'};
 
 InputParameters
@@ -24,8 +23,8 @@ HeatDiffusionActionBase::validParams()
 {
   InputParameters params = Action::validParams();
 
-  params.addRequiredParam<std::vector<VariableName>>(
-      "temp", "The temperature variable for the problem");
+  params.addRequiredParam<std::vector<VariableName>>("temp",
+                                                     "The temperature variable for the problem");
 
   params.addParam<std::string>("base_name", "Material property base name");
   params.addParam<bool>("add_variables", false, "Add the temperature variable");
@@ -63,10 +62,15 @@ HeatDiffusionActionBase::validParams()
 HeatDiffusionActionBase::HeatDiffusionActionBase(const InputParameters & parameters)
   : Action(parameters), _use_ad(getParam<bool>("use_automatic_differentiation"))
 {
+  // FIXME: suggest to use action of action to add this to avoid changing the input parameters in
+  // the warehouse.
+  const auto & params = _app.getInputParameterWarehouse().getInputParameters();
+  InputParameters & pars(*(params.find(uniqueActionName())->second.get()));
+
   // check if a container block with common parameters is found
   auto action = _awh.getActions<CommonHeatDiffusionAction>();
   if (action.size() == 1)
-    _pars.applyParameters(action[0]->parameters());
+    pars.applyParameters(action[0]->parameters());
 
   // append additional_generate_output
   if (isParamValid("additional_generate_output"))
@@ -90,9 +94,9 @@ HeatDiffusionActionBase::HeatDiffusionActionBase(const InputParameters & paramet
     for (auto & family : additional_material_output_family)
       material_output_family.push_back(family);
 
-    _pars.set<MultiMooseEnum>("generate_output") = generate_output;
-    _pars.set<MultiMooseEnum>("material_output_order") = material_output_order;
-    _pars.set<MultiMooseEnum>("material_output_family") = material_output_family;
+    pars.set<MultiMooseEnum>("generate_output") = generate_output;
+    pars.set<MultiMooseEnum>("material_output_order") = material_output_order;
+    pars.set<MultiMooseEnum>("material_output_family") = material_output_family;
   }
 }
 
@@ -123,7 +127,7 @@ HeatDiffusionActionBase::outputPropertiesType()
 
 void
 HeatDiffusionActionBase::addCartesianComponentOutput(const std::string & enum_name,
-                                                       const std::string & prop_name)
+                                                     const std::string & prop_name)
 {
   if (prop_name.empty())
     // the enum name is the actual tensor material property name

@@ -2,7 +2,7 @@ Beaver
 =====
 
 ### Description
-MOOSE App for Variational Multiscale Nitsche (VMN) Interface Framework of linear and nonlinear solid mechanics.
+MOOSE App for Variational Multiscale Nitsche (VMN) and Discontinuous Galerkin (VMDG) Interface Framework of linear and nonlinear solid mechanics.
 
 ### Installation and Testing
 Follow the typical steps for installing the MOOSE Framework, including the module 'Tensor Mechanics'.

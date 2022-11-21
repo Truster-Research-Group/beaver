@@ -12,6 +12,7 @@
 #include "ActionWarehouse.h"
 #include "AddAuxVariableAction.h"
 #include "MooseEnum.h"
+#include "InputParameterWarehouse.h"
 
 // map vector name shortcuts to tensor material property names
 const std::map<std::string, std::string>
@@ -23,9 +24,8 @@ const std::map<std::string, std::string>
 // map aux variable name prefixes to VMNS vector scalar options and list of permitted tensor name
 // shortcuts
 const std::map<std::string, std::pair<std::string, std::vector<std::string>>>
-    TracInterActionBase::_vector_direction_table = {
-        {"normal", {"Normal", {"traction", "jump"}}},
-        {"tangent", {"Tangent", {"traction", "jump"}}}};
+    TracInterActionBase::_vector_direction_table = {{"normal", {"Normal", {"traction", "jump"}}},
+                                                    {"tangent", {"Tangent", {"traction", "jump"}}}};
 
 const std::vector<char> TracInterActionBase::_component_table = {'x', 'y', 'z'};
 
@@ -91,12 +91,17 @@ TracInterActionBase::validParams()
   return params;
 }
 
-TracInterActionBase::TracInterActionBase(const InputParameters & params) : Action(params)
+TracInterActionBase::TracInterActionBase(const InputParameters & parameters) : Action(parameters)
 {
+  // FIXME: suggest to use action of action to add this to avoid changing the input parameters in
+  // the warehouse.
+  const auto & params = _app.getInputParameterWarehouse().getInputParameters();
+  InputParameters & pars(*(params.find(uniqueActionName())->second.get()));
+
   // check if a container block with common parameters is found
   auto action = _awh.getActions<CommonTracInterAction>();
   if (action.size() == 1)
-    _pars.applyParameters(action[0]->parameters());
+    pars.applyParameters(action[0]->parameters());
 
   // append additional_generate_output to generate_output
   if (isParamValid("additional_generate_output"))
@@ -120,9 +125,9 @@ TracInterActionBase::TracInterActionBase(const InputParameters & params) : Actio
     for (auto & family : additional_material_output_family)
       material_output_family.push_back(family);
 
-    _pars.set<MultiMooseEnum>("generate_output") = generate_output;
-    _pars.set<MultiMooseEnum>("material_output_order") = material_output_order;
-    _pars.set<MultiMooseEnum>("material_output_family") = material_output_family;
+    pars.set<MultiMooseEnum>("generate_output") = generate_output;
+    pars.set<MultiMooseEnum>("material_output_order") = material_output_order;
+    pars.set<MultiMooseEnum>("material_output_family") = material_output_family;
   }
 }
 
